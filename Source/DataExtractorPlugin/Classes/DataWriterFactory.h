@@ -5,7 +5,7 @@
 #include "DataWriterFactory.generated.h"
 
 
-DECLARE_LOG_CATEGORY_EXTERN(DataWriterFactory, Verbose, All)
+DECLARE_LOG_CATEGORY_EXTERN(DataWriterFactory, Log, All)
 
 
 UENUM(BlueprintType)

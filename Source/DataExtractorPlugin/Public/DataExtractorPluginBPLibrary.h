@@ -39,6 +39,9 @@ class UDataExtractorPluginBPLibrary : public UBlueprintFunctionLibrary
     UFUNCTION(BlueprintCallable, meta = (DisplayName = "Start new session", Keywords = "DataExtractorPlugin session start"), Category = "DataExtractorPlugin")
     static void StartSession(EOutputTypeEnum type, const FOutputSettings& settings);
     
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "Write data", Keywords = "DataExtractorPlugin data write"), Category = "DataExtractorPlugin")
+    static void WriteData(const TMap<FString, FString>& dataMap);
+    
     UFUNCTION(BlueprintCallable, meta = (DisplayName = "Stop current session", Keywords = "DataExtractorPlugin session stop"), Category = "DataExtractorPlugin")
     static void StopSession();
 

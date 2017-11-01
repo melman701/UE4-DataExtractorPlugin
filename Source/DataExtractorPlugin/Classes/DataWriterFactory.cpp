@@ -13,7 +13,7 @@ TSharedPtr<IDataWriter> FDataWriterFactory::CreateDataWriter(EOutputTypeEnum typ
     UE_LOG(DataWriterFactory, Verbose, TEXT("OutputDirectory: %s"), *settings.OutputDirectory);
     UE_LOG(DataWriterFactory, Verbose, TEXT("OutputFileName: %s"), *settings.OutputFileName);
     
-    TSharedPtr<IDataWriter> sptr = nullptr;
+    TSharedPtr<IDataWriter> sptr;
     
     try
     {
@@ -28,8 +28,8 @@ TSharedPtr<IDataWriter> FDataWriterFactory::CreateDataWriter(EOutputTypeEnum typ
     }
     catch (std::exception& e)
     {
-        UE_LOG(DataWriterFactory, Error, TEXT("Data writer creation failed with exception: %s"), e.what());
-        sptr = nullptr;
+        UE_LOG(DataWriterFactory, Error, TEXT("Data writer creation failed with exception: %s"), ANSI_TO_TCHAR(e.what()));
+        sptr.Reset();
     }
     
     return sptr;

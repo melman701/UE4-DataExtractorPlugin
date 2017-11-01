@@ -3,7 +3,7 @@
 #include "IDataWriter.h"
 
 
-DECLARE_LOG_CATEGORY_EXTERN(CSVWriter, Verbose, All)
+DECLARE_LOG_CATEGORY_EXTERN(CSVWriter, Log, All)
 
 
 class FCsvWriter : public IDataWriter
@@ -18,4 +18,5 @@ public:
 private:
     IPlatformFile& m_platformFile;
     IFileHandle* m_fileHandle;
+    bool m_bHeaderWritten;
 };
