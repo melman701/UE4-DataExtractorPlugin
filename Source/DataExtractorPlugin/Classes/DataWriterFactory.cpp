@@ -15,21 +15,13 @@ TSharedPtr<IDataWriter> FDataWriterFactory::CreateDataWriter(EOutputTypeEnum typ
     
     TSharedPtr<IDataWriter> sptr;
     
-    try
+    switch (type)
     {
-        switch (type)
-        {
-            case EOutputTypeEnum::OTE_CSV:
-                sptr = TSharedPtr<IDataWriter>(new FCsvWriter(settings.OutputDirectory, settings.OutputFileName));
-                break;
-            default:
-                break;
-        }
-    }
-    catch (std::exception& e)
-    {
-        UE_LOG(DataWriterFactory, Error, TEXT("Data writer creation failed with exception: %s"), ANSI_TO_TCHAR(e.what()));
-        sptr.Reset();
+        case EOutputTypeEnum::OTE_CSV:
+            sptr = TSharedPtr<IDataWriter>(new FCsvWriter(settings.OutputDirectory, settings.OutputFileName));
+            break;
+        default:
+            break;
     }
     
     return sptr;

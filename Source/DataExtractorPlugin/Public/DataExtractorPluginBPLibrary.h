@@ -3,6 +3,8 @@
 #pragma once
 
 #include "Engine.h"
+#include "LogMacros.h"
+#include "LogVerbosity.h"
 
 #include "DataWriterFactory.h"
 

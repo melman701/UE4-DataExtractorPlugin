@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Map.h"
+#include "UnrealString.h"
+
 
 class IDataWriter
 {

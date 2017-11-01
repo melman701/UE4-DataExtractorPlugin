@@ -1,5 +1,10 @@
 #pragma once
 
+#include "Paths.h"
+#include "SharedPointer.h"
+#include "LogMacros.h"
+#include "LogVerbosity.h"
+
 #include "IDataWriter.h"
 
 #include "DataWriterFactory.generated.h"

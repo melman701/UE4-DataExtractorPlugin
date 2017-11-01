@@ -17,18 +17,9 @@ FCsvWriter::FCsvWriter(FString fileDir, FString fileName)
     if (!m_platformFile.DirectoryExists(*fileDir))
     {
         UE_LOG(CSVWriter, Warning, TEXT("Output directory(%s) doesn't exists"), *fileDir);
-        try
+        if (!m_platformFile.CreateDirectoryTree(*fileDir))
         {
-            if (!m_platformFile.CreateDirectoryTree(*fileDir))
-            {
-                UE_LOG(CSVWriter, Error, TEXT("Failed to create output directory"));
-                throw std::runtime_error("Failed to create output directory");
-            }
-        }
-        catch (std::exception& e)
-        {
-            UE_LOG(CSVWriter, Error, TEXT("Output directory creation failed with exception: %s"), ANSI_TO_TCHAR(e.what()));
-            throw;
+            UE_LOG(CSVWriter, Error, TEXT("Failed to create output directory"));
         }
     }
     
@@ -36,7 +27,6 @@ FCsvWriter::FCsvWriter(FString fileDir, FString fileName)
     if (!m_fileHandle)
     {
         UE_LOG(CSVWriter, Error, TEXT("Failed to open output file(%s)"), *(fileDir + fileName));
-        throw std::runtime_error("Failed to open output file");
     }
 }
 
@@ -53,6 +43,9 @@ FCsvWriter::~FCsvWriter()
 bool FCsvWriter::WriteData(const TMap<FString, FString>& dataMap)
 {
     UE_LOG(CSVWriter, Log, TEXT("Write data"));
+    
+    verify(m_fileHandle != nullptr);
+    
     uint8_t b = 0;
     if (!m_bHeaderWritten)
     {

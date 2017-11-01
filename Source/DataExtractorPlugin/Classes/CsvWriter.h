@@ -1,5 +1,9 @@
 #pragma once
 
+#include "GenericPlatformFile.h"
+#include "LogMacros.h"
+#include "LogVerbosity.h"
+
 #include "IDataWriter.h"
 
 
