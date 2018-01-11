@@ -18,7 +18,7 @@ TSharedPtr<IDataWriter> FDataWriterFactory::CreateDataWriter(EOutputTypeEnum typ
     switch (type)
     {
         case EOutputTypeEnum::OTE_CSV:
-            sptr = TSharedPtr<IDataWriter>(new FCsvWriter(settings.OutputDirectory, settings.OutputFileName));
+            sptr = TSharedPtr<IDataWriter>(new FCsvWriter(settings.OutputDirectory, settings.OutputFileName, settings.CsvDelimiter));
             break;
         default:
             break;

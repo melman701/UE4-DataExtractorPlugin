@@ -13,7 +13,7 @@ DECLARE_LOG_CATEGORY_EXTERN(CSVWriter, Log, All)
 class FCsvWriter : public IDataWriter
 {
 public:
-    FCsvWriter(FString fileDir, FString fileName);
+    FCsvWriter(FString fileDir, FString fileName, FString delimiter = ",");
     virtual ~FCsvWriter();
     
     virtual bool WriteData(const TMap<FString, FString>& dataMap);
@@ -23,4 +23,5 @@ private:
     IPlatformFile& m_platformFile;
     IFileHandle* m_fileHandle;
     bool m_bHeaderWritten;
+    FString m_delimiter;
 };

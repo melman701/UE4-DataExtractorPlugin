@@ -29,6 +29,9 @@ struct FOutputSettings
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Output Settings")
     FString OutputFileName = "output.csv";
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Output Settings")
+    FString CsvDelimiter = "\t";
 };
 
 

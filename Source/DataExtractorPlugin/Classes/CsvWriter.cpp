@@ -7,10 +7,11 @@
 DEFINE_LOG_CATEGORY(CSVWriter)
 
 
-FCsvWriter::FCsvWriter(FString fileDir, FString fileName)
+FCsvWriter::FCsvWriter(FString fileDir, FString fileName, FString delimiter)
     : m_platformFile(FPlatformFileManager::Get().GetPlatformFile())
     , m_fileHandle(nullptr)
     , m_bHeaderWritten(false)
+    , m_delimiter(delimiter)
 {
     UE_LOG(CSVWriter, Log, TEXT("Constructor"));
     
@@ -46,7 +47,7 @@ bool FCsvWriter::WriteData(const TMap<FString, FString>& dataMap)
     
     verify(m_fileHandle != nullptr);
     
-    uint8_t b = 0;
+    FString s = "";
     if (!m_bHeaderWritten)
     {
         UE_LOG(CSVWriter, Log, TEXT("Write header"));
@@ -54,31 +55,39 @@ bool FCsvWriter::WriteData(const TMap<FString, FString>& dataMap)
         {
             UE_LOG(CSVWriter, VeryVerbose, TEXT("%s"), *row.Key);
             uint32 size = row.Key.Len();
-            if (b != 0)
-                m_fileHandle->Write(&b, 1);
+            if (s != "")
+                m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*s)), 1);
             else
-                b = ',';
-            m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*row.Key)), size);
+                s = m_delimiter;
+            
+            FTCHARToUTF8 EchoStrUtf8(*row.Key);
+            size = EchoStrUtf8.Length();
+            
+            m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*EchoStrUtf8)), size);
         }
-        b = '\n';
-        m_fileHandle->Write(&b, 1);
+        s = "\n";
+        m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*s)), 1);
         m_bHeaderWritten = true;
-        b = 0;
+        s = "";
     }
     
     for (auto& row : dataMap)
     {
         UE_LOG(CSVWriter, VeryVerbose, TEXT("%s: %s"), *row.Key, *row.Value);
-        if (b != 0)
-            m_fileHandle->Write(&b, 1);
+        if (s != "")
+            m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*s)), 1);
         else
-            b = ',';
+            s = m_delimiter;
         uint32 size = row.Value.Len();
-        m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*row.Value)), size);
+        
+        FTCHARToUTF8 EchoStrUtf8(*row.Value);
+        size = EchoStrUtf8.Length();
+        
+        m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*EchoStrUtf8)), size);
     }
     
-    b = '\n';
-    m_fileHandle->Write(&b, 1);
+    s = "\n";
+    m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*s)), 1);
     
     m_fileHandle->Flush();
     
