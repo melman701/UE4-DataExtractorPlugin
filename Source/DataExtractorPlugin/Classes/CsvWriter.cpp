@@ -24,7 +24,7 @@ FCsvWriter::FCsvWriter(FString fileDir, FString fileName, FString delimiter)
         }
     }
     
-    m_fileHandle = m_platformFile.OpenWrite(*(fileDir + fileName));
+    m_fileHandle = m_platformFile.OpenWrite(*(fileDir + fileName), true);
     if (!m_fileHandle)
     {
         UE_LOG(CSVWriter, Error, TEXT("Failed to open output file(%s)"), *(fileDir + fileName));
