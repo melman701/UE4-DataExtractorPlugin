@@ -31,7 +31,7 @@ FCsvWriter::FCsvWriter(FString fileDir, FString fileName, FString delimiter)
     }
     else
     {
-        if (m_fileHandle.Size() > 0)
+        if (m_fileHandle->Size() > 0)
             m_bHeaderWritten = true;
     }
 }
