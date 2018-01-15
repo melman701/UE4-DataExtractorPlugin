@@ -29,6 +29,11 @@ FCsvWriter::FCsvWriter(FString fileDir, FString fileName, FString delimiter)
     {
         UE_LOG(CSVWriter, Error, TEXT("Failed to open output file(%s)"), *(fileDir + fileName));
     }
+    else
+    {
+        if (m_fileHandle.Size() > 0)
+            m_bHeaderWritten = true;
+    }
 }
 
 FCsvWriter::~FCsvWriter()
@@ -63,7 +68,7 @@ bool FCsvWriter::WriteData(const TMap<FString, FString>& dataMap)
             FTCHARToUTF8 EchoStrUtf8(*row.Key);
             size = EchoStrUtf8.Length();
             
-            m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*EchoStrUtf8)), size);
+            m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*row.Key)), size);
         }
         s = "\n";
         m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*s)), 1);
@@ -83,7 +88,7 @@ bool FCsvWriter::WriteData(const TMap<FString, FString>& dataMap)
         FTCHARToUTF8 EchoStrUtf8(*row.Value);
         size = EchoStrUtf8.Length();
         
-        m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*EchoStrUtf8)), size);
+        m_fileHandle->Write(reinterpret_cast<uint8_t*>(TCHAR_TO_UTF8(*row.Value)), size);
     }
     
     s = "\n";
